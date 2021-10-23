@@ -21,9 +21,11 @@ public class Categoria implements Serializable {
 
     private String nombre;
 
-    @Builder.Default
+
     @OneToMany(mappedBy = "categoria")
     private List<Producto> productos= new ArrayList<>();
+
+    private Long idCategoriaPadre;
 
 
 }

@@ -2,11 +2,9 @@ package com.example.ejercicio1Asociaciones.modelo;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 @Entity
 @NoArgsConstructor @AllArgsConstructor
@@ -21,7 +19,22 @@ public class Producto implements Serializable {
 
     private double pvp;
 
-    @Builder.Default
-    @OneToMany(mappedBy = "producto")
 
+    @ManyToOne
+    @JoinColumn(name = "categria",foreignKey = @ForeignKey(name = "FK_PRODUCTO_CATEGORIA"))
+    private Categoria categoria;
+
+    public void addCategoria(Categoria c){
+        categoria= c;
+        if(c.getProductos()==null){
+            c.setProductos(new ArrayList<>());
+            c.getProductos().add(this);
+        }else{
+            c.getProductos().add(this);
+        }
+    }
+    public void removeCategoria(Categoria c){
+        c.getProductos().remove(this);
+        categoria= null;
+    }
 }
